@@ -1,0 +1,80 @@
+import java.util.ArrayList;
+
+public class WordFreqCounter {
+
+    private ArrayList<String> word_list;
+    
+    public WordFreqCounter() {
+        word_list = new ArrayList<String>();
+    }
+    
+    public void add(String word) {
+        word_list.add(word);
+    }
+    
+    public String[] uniqueWords() {
+        // to find all the unique words in the array list, we will create a
+        // second array list, and add words to it only if they are not already
+        // in there
+       //Change to a List because array an array is fixed
+    	
+    	ArrayList<String> unique_words = new ArrayList<String>();
+        for(String s : word_list) {
+            if(!unique_words.contains(s)) {
+                unique_words.add(s);
+            }
+        }
+        String[] unique_words_array = new String[unique_words.size()];
+        return unique_words.toArray(unique_words_array);
+    }
+    
+    public int freq(String word) {
+        // start frequency at 0, loop over the entire array list, and
+        // if the word matches the desired word, increment frequency by 1
+        int frequency = 0;
+        for(String s : word_list) {
+            if(s.equals(word)) {
+                frequency++;
+            }
+        }
+        return frequency;
+    }
+    
+    public double avgFreq() {
+        // to find the average frequency, first build the String[] of unique
+        // words, then find the frequency of each of those words, and divide
+        // by the number of unique words
+        String[] unique_words = uniqueWords();
+        float frequency = 0;
+        for(String s : unique_words) {
+            frequency += freq(s);
+        }
+        float average_frequency = frequency / unique_words.length;
+        return average_frequency;
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        WordFreqCounter wfc = new WordFreqCounter();
+        wfc.add("kiwi");
+        wfc.add("apple");
+        wfc.add("orange");
+        wfc.add("cherry");
+        wfc.add("apple");
+        wfc.add("apple");
+        wfc.add("cherry");
+        wfc.add("banana");
+        wfc.add("orange");
+
+        String[] uw = wfc.uniqueWords();
+        for(String w: uw) {
+            System.out.printf("%-8s  %2d\n", w, wfc.freq(w));
+        }
+
+        System.out.printf("Average frequency is %4.2f\n", wfc.avgFreq());
+        System.out.printf("Frequency of \"peach\" is %d\n", wfc.freq("peach"));
+    }
+    
+}
